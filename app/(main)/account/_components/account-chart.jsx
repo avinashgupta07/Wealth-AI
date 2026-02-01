@@ -36,7 +36,8 @@ export function AccountChart({ transactions }) {
     const filteredData = useMemo(() => {
         const range = DATE_RANGES[dateRange];
         const now = new Date();
-        const startDate = range.days
+        // Fix: Check if range.days is undefined or null, allowing 0 to pass through
+        const startDate = range.days !== null
             ? startOfDay(subDays(now, range.days))
             : startOfDay(new Date(0));
 
