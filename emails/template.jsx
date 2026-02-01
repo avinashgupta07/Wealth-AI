@@ -50,15 +50,15 @@ export default function EmailTemplate({
                 <Section style={styles.statsContainer}>
                     <div style={styles.stat}>
                         <Text style={styles.text}>Total Income</Text>
-                        <Text style={styles.heading}>${totalIncome}</Text>
+                        <Text style={styles.heading}>₹{totalIncome}</Text>
                     </div>
                     <div style={styles.stat}>
                         <Text style={styles.text}>Total Expenses</Text>
-                        <Text style={styles.heading}>${totalExpenses}</Text>
+                        <Text style={styles.heading}>₹{totalExpenses}</Text>
                     </div>
                     <div style={styles.stat}>
                         <Text style={styles.text}>Net</Text>
-                        <Text style={styles.heading}>${totalIncome - totalExpenses}</Text>
+                        <Text style={styles.heading}>₹{totalIncome - totalExpenses}</Text>
                     </div>
                 </Section>
 
@@ -68,7 +68,7 @@ export default function EmailTemplate({
                         {Object.entries(stats.byCategory).map(([category, amount]) => (
                             <div key={category} style={styles.row}>
                                 <Text style={styles.text}>{category}</Text>
-                                <Text style={styles.text}>${amount}</Text>
+                                <Text style={styles.text}>₹{amount}</Text>
                             </div>
                         ))}
                     </Section>
@@ -99,15 +99,15 @@ export default function EmailTemplate({
                 <Section style={styles.statsContainer}>
                     <div style={styles.stat}>
                         <Text style={styles.text}>Budget Amount</Text>
-                        <Text style={styles.heading}>${budgetAmount}</Text>
+                        <Text style={styles.heading}>₹{budgetAmount}</Text>
                     </div>
                     <div style={styles.stat}>
                         <Text style={styles.text}>Spent So Far</Text>
-                        <Text style={styles.heading}>${totalExpenses}</Text>
+                        <Text style={styles.heading}>₹{totalExpenses}</Text>
                     </div>
                     <div style={styles.stat}>
                         <Text style={styles.text}>Remaining</Text>
-                        <Text style={styles.heading}>${budgetAmount - totalExpenses}</Text>
+                        <Text style={styles.heading}>₹{budgetAmount - totalExpenses}</Text>
                     </div>
                 </Section>
             </EmailLayout>
