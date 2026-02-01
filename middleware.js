@@ -1,45 +1,24 @@
+// middleware.ts
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-import arcjet, { createMiddleware, detectBot, shield } from "@arcjet/next";
+
 const isProtectedRoute = createRouteMatcher([
     '/dashboard(.*)',
     '/account(.*)',
     '/transaction(.*)',
 ]);
 
-// Create Arcjet middleware
-const aj = arcjet({
-    key: process.env.ARCJET_KEY,
-    // characteristics: ["userId"], // Track based on Clerk userId
-    rules: [
-        // Shield protection for content and security
-        shield({
-            mode: "LIVE",
-        }),
-        detectBot({
-            mode: "LIVE", // will block requests. Use "DRY_RUN" to log only
-            allow: [
-                "CATEGORY:SEARCH_ENGINE", // Google, Bing, etc
-                "GO_HTTP", // For Inngest
-                // See the full list at https://arcjet.com/bot-list
-            ],
-        }),
-    ],
-});
-
-const clerk = clerkMiddleware(async (auth, req) => {
+export default clerkMiddleware(async (auth, req) => {
     const { userId } = await auth();
 
+    // If user is not logged in and tries to access a protected route
     if (!userId && isProtectedRoute(req)) {
         return (await auth()).redirectToSignIn();
     }
 });
 
-export default createMiddleware(aj, clerk)
-
-
 export const config = {
     matcher: [
-        // Skip Next.js internals and all static files, unless found in search params
+        // Skip Next.js internals and all static files
         '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
         // Always run for API routes
         '/(api|trpc)(.*)',
